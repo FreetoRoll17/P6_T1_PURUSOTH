@@ -5,20 +5,21 @@ const Sauce = require('../models/sauces');
 
 
 exports.getAllSauces = (req, res, next) => {
-    sauce.find()
+    Sauce.find()
         .then(sauces => res.status(200).json(sauces))
         .catch(error => res.status(400).json({ error: error }))
 }
 
 
-exports.addSauces = (req, res, next) => {
-    //console.log('ajouter une sauce')
-    //const sauceObject = JSON.parse(req.body.sauce)
+exports.createSauces = (req, res, next) => {
+    console.log('ajouter une sauce')
+    const sauceObject = JSON.parse(req.body.sauce)
     //delete sauceObject._id
+    var body = req.body
     delete body._id
     const sauce = new Sauce({
       ...sauceObject,
-      //imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+      imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
     });
     sauce.save()
       .then(() => res.status(201).json({ message: 'Sauce enregistré !'}))
