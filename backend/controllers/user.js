@@ -5,7 +5,7 @@ const User = require('../models/user');
 
 
 exports.signup = (req, res, next) => {
-    console.log('methode signup ok')
+    //console.log('methode signup ok')
     bcrypt.hash(req.body.password, 15)
         .then(hash => {
             const user = new User({
@@ -26,7 +26,7 @@ exports.signup = (req, res, next) => {
 };
 
 exports.login = (req, res, next) => {
-    console.log("okokok")
+    //console.log("okokok")
     User.findOne({
             email: req.body.email
         })
@@ -51,17 +51,13 @@ exports.login = (req, res, next) => {
                     }
                     else {
                         console.log('mdp valide')
-                    }
-                    res.status(200).json({
-                        userId: user._id,
-                        token: jwt.sign({
-                                userId: user._id
-                            },
-                            'RANDOM-TOKEN-SECRET', {
+                        res.status(200).json({
+                            userId: user._id,
+                            token: jwt.sign({userId: user._id}, "RANDOM_TOKEN_SECRET", {
                                 expiresIn: '24h'
-                            }
-                        )
-                    });
+                            })
+                        });
+                    }
                 })
                 .catch(error => res.status(500).json({
                     error

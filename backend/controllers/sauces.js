@@ -54,30 +54,44 @@ exports.deleteSauce = (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
 };
 
-
 // Like dislike
-exports.likeNotLike = (req, res, next) => {
-    if (req.body.like === 1) {
-        Sauce.updateOne({ _id: req.params.id }, { $inc: { likes: req.body.like++ }, $push: { usersLiked: req.body.userId } })
-            .then((sauce) => res.status(200).json({ message: 'Like ajouté' }))
-            .catch(error => res.status(400).json({ error }))
-    } else if (req.body.like === -1) {
-        Sauce.updateOne({ _id: req.params.id }, { $inc: { dislikes: (req.body.like++) * -1 }, $push: { usersDisliked: req.body.userId } })
-            .then((sauce) => res.status(200).json({ message: 'Dislike ajouté' }))
-            .catch(error => res.status(400).json({ error }))
-    } else {
+/*exports.like = (req, res, next) => {
+  
+    let like = req.body.like;
+    console.log(like);
+    if (like == 1) {
+        console.log('utilisateur aime la sauce')
+        
+        //récupérer tous les utilisaters qui aiment la sauce
         Sauce.findOne({ _id: req.params.id })
             .then(sauce => {
-                if (sauce.usersLiked.includes(req.body.userId)) {
-                    Sauce.updateOne({ _id: req.params.id }, { $pull: { usersLiked: req.body.userId }, $inc: { likes: -1 } })
-                        .then((sauce) => { res.status(200).json({ message: 'Like supprimé' }) })
-                        .catch(error => res.status(400).json({ error }))
-                } else if (sauce.usersDisliked.includes(req.body.userId)) {
-                    Sauce.updateOne({ _id: req.params.id }, { $pull: { usersDisliked: req.body.userId }, $inc: { dislikes: -1 } })
-                        .then((sauce) => { res.status(200).json({ message: 'Dislike supprimé !' }) })
-                        .catch(error => res.status(400).json({ error }))
-                }
-            })
-            .catch(error => res.status(400).json({ error }))
+                // ajouter l'Id de l'utilisateur en cours au tableau usersliked de la sauce en édition
+                let usersLiked = sauce.usersLiked
+                usersLiked.push(req.body.userId)
+                
+                // ajouter 1 à la propriété likes de la sauce
+
+
+                // mettre à jour la sauce dans la BD avec les nouvelles informations 
+                Sauce.updateOne({ _id: req.params.id }, {likes: 10, usersLiked: usersLiked, _id: req.params.id}) 
+                    .then(() => res.status(200).json({ message: 'Sauce modifiée !' }))
+                    .catch(error => res.status(400).json({ error }))
+           
+    
+    })
+            .catch(error => res.status(404).json({ error: error }))
+
+        
+        
+    
+
+    } else if (like == -1) {
+        console.log('utilisateur aime pasla sauce')
+    } else if (like == 0) {
+        console.log('utilisateur annule son like ou son dislike')
+    } else {
+        console.log('error 404')
     }
+
 }
+*/
