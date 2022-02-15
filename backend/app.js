@@ -11,7 +11,7 @@ const saucesRoutes = require('./routes/sauces')
 const app = express();
 
 
-//Mongosse 
+//Mongosse (variable d'ENV a faire)
 mongoose.connect('mongodb+srv://Puru:FTR2021@cluster1.foo7b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true
