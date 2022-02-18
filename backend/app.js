@@ -3,7 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const path = require('path');
-
+require('dotenv').config();
 const userRoutes = require('./routes/user')
 const saucesRoutes = require('./routes/sauces')
 
@@ -12,7 +12,7 @@ const app = express();
 
 
 //Mongosse (variable d'ENV a faire)
-mongoose.connect('mongodb+srv://Puru:FTR2021@cluster1.foo7b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
+mongoose.connect(`mongodb+srv://${process.env.MDB_USER}:${process.env.MDB_MPD}@${process.env.MDB_HOST}/${process.env.MDB_DB_NAME}?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
     })
