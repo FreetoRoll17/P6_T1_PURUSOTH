@@ -1,6 +1,8 @@
 
 
 const Sauce = require('../models/sauces');
+const path = require('path');
+const fs = require('fs')
 
 // voir les sauces
 exports.getAllSauces = (req, res, next) => {
@@ -45,11 +47,28 @@ exports.getOneSauce = (req, res, next) => {
 
 
 // supprimer sauce
-exports.deleteSauce = (req, res, next) => {
+/*exports.deleteSauce = (req, res, next) => {
     Sauce.deleteOne({ _id: req.params.id })
     .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
     .catch(error => res.status(400).json({ error }));
 };
+*/
+
+exports.deleteSauce = (req, res, next) => {
+    Sauce.findOne({ _id: req.params.id })
+      .then(sauce => {
+        const filename = sauce.imageUrl.split('/images/')[1];
+        //console.log(sauce.imageUrl);
+        console.log(path.join(__dirname,  `../images/${filename}`) );
+        fs.unlink(`images/${filename}`, () => {
+          Sauce.deleteOne({ _id: req.params.id })
+            .then(() => res.status(200).json({ message: 'Objet supprimé !'}))
+            .catch(error => res.status(400).json({ error }));
+        });
+      })
+      .catch(error => res.status(500).json({ error }));
+  };
+
 
 // Like dislike
 

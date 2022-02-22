@@ -11,7 +11,7 @@ const saucesRoutes = require('./routes/sauces')
 const app = express();
 
 
-//Mongosse (variable d'ENV a faire)
+//Mongosse 
 mongoose.connect(`mongodb+srv://${process.env.MDB_USER}:${process.env.MDB_MPD}@${process.env.MDB_HOST}/${process.env.MDB_DB_NAME}?retryWrites=true&w=majority`, {
         useNewUrlParser: true,
         useUnifiedTopology: true
@@ -34,7 +34,8 @@ app.use(express.static('public'));
 
 app.use(bodyParser.json())
 
-app.use('/images', express.static(path.join(__dirname, 'images')));
+app.use('/images', express.static(path.join(__dirname, 'images')))
+//console.log(path);
 
 app.use('/api/auth', userRoutes);
 

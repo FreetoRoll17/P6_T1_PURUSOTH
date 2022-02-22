@@ -16,7 +16,8 @@ exports.signup = (req, res, next) => {
                     message: 'utilisateur crée'
                 }))
                 .catch(error => res.status(500).json({
-                    error
+                    message : 'Votre email a déja été utilisée.'
+              
                 }));
         })
         .catch(error => res.status(500).json({
